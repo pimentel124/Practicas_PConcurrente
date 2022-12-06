@@ -7,6 +7,7 @@ public class Practica1 {
     public enum Estat {
         FORA, ESPERANT, DINS
     }
+    static Random r = new Random(100);
 
     static final int MAX = 100;
     static final String[] noms = {"Joan", "Pere", "Anna", "Maria", "Josep"};
@@ -95,7 +96,7 @@ public class Practica1 {
                     sRonda.release();
                     sInOut.release();
 
-                    Thread.sleep(new Random().nextInt(1000));
+                    Thread.sleep(r.nextInt(1000));
 
                 }
             } catch (InterruptedException e) {
@@ -130,7 +131,7 @@ public class Practica1 {
 
                 System.out.println(this.nom + " estudia");
 
-                Thread.sleep(new Random().nextInt(2000));
+                Thread.sleep(r.nextInt(2000));
                 sInOut.acquire();
                 comptador_alumnes--;
                 System.out.println("L'estudiant " + this.nom + " surt de la sala. Total d'estudiants: " + comptador_alumnes);
