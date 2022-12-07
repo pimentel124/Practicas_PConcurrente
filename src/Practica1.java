@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
@@ -7,18 +6,19 @@ public class Practica1 {
     public enum Estat {
         FORA, ESPERANT, DINS
     }
-    static Random r = new Random(100);
+    static Random r = new Random();
 
-    static final int MAX = 100;
-    static final String[] noms = {"Joan", "Pere", "Anna", "Maria", "Josep"};
+    static final int MAX = 4;
+    static final String[] noms = {"Joan", "Pere", "Anna", "Maria", "Josep", "Laura", "Lluis", "Marta", "Marc", "Pilar"};
     static final int alumnes = noms.length;
     static int comptador_alumnes = 0;
     static int rondes = 3;
 
     static Estat estat = Estat.FORA; //Estat del director
-    static Semaphore sInOut = new Semaphore(1);
-    static Semaphore sDirector = new Semaphore(1);
-    static Semaphore sRonda = new Semaphore(1);
+    static Semaphore sEntrada = new Semaphore(1);
+    static Semaphore sSalida = new Semaphore(1);
+    static Semaphore sRonda = new Semaphore(0);
+    static Semaphore sContador = new Semaphore(1);
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -67,7 +67,7 @@ public class Practica1 {
 
             try {
                 for (int i = 0; i < rondes; i++) {
-                    sInOut.acquire(); //Se emplea para que no entren mas alumnos mientras se hace el calculo
+                    sContador.acquire(); //Se emplea para que no entren mas alumnos mientras se hace el calculo
                     System.out.println("\tEl sr. Director comença la ronda");
 
 
@@ -77,26 +77,33 @@ public class Practica1 {
 
                     } else {
                         if (comptador_alumnes < MAX) {
-                            sInOut.release();
+                            sContador.release();
                             estat = Estat.ESPERANT;
                             System.out.println("\tEl Director està esperant per entrar. No molesta als que estudien");
-                            sRonda.acquire(); //Espera a que salgan
+                            sRonda.acquire(alumnes); //Espera a que salgan
+
                             //sInOut.acquire(); //Espera a que no haya un alumno en movimiento
 
 
                         } else {
-                            sInOut.release();
-                            //fiesta
+                            sEntrada.acquire();
+                            sContador.release();
+
+                            estat = Estat.DINS;
+                            System.out.println("\tEl Director està dins la sala d'estudi: S'HA ACABAT LA FESTA!");
+                            sRonda.acquire(alumnes);
+
                         }
 
                     }
 
                     System.out.println("\tEl Director acaba la ronda " + (i + 1) + " de "+ rondes);
+                    sEntrada.release();
                     estat = Estat.FORA;
-                    sRonda.release();
-                    sInOut.release();
+                    sRonda.release(alumnes);
+                    sContador.release();
 
-                    Thread.sleep(r.nextInt(1000));
+                    Thread.sleep(r.nextInt(500));
 
                 }
             } catch (InterruptedException e) {
@@ -120,30 +127,41 @@ public class Practica1 {
         public void run() {
             try {
 
+                sRonda.acquire();
+                sEntrada.acquire();
+                sContador.acquire();
 
-                sInOut.acquire();
                 comptador_alumnes++;
-                if (comptador_alumnes == 1) {
-                    sRonda.acquire();
-                }
+
+
                 System.out.println("L'estudiant " + this.nom + " entra a la sala. Total d'estudiants: " + comptador_alumnes);
-                sInOut.release();
 
-                System.out.println(this.nom + " estudia");
+                sEntrada.release();
 
+
+                if (comptador_alumnes >= MAX){
+                    System.out.println(this.nom + ": FESTA!!!");
+                }else {
+                    System.out.println(this.nom + " estudia");
+                }
+                sContador.release();
                 Thread.sleep(r.nextInt(2000));
-                sInOut.acquire();
+                sSalida.acquire();
+                sContador.acquire();
                 comptador_alumnes--;
                 System.out.println("L'estudiant " + this.nom + " surt de la sala. Total d'estudiants: " + comptador_alumnes);
-                sInOut.release();
+
+                sSalida.release();
 
                 if (comptador_alumnes == 0) {
-                    sRonda.release();
+
 
                     if (estat == Estat.ESPERANT) {
                         System.out.println(nom + ": ADEU Senyor Director, pot entrar si vol, no hi ha ningú");
                     }
                 }
+                sContador.release();
+                sRonda.release();
 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
