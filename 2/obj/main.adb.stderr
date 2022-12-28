@@ -1,16 +1,4 @@
-main.adb:14:15: error: anonymous array not allowed as component
-main.adb:39:30: error: unrecognized attribute "Salon_Status"
-main.adb:47:33: error: unrecognized attribute "Salon_Status"
-main.adb:48:42: error: unrecognized attribute "Mesas"
-main.adb:49:43: error: unrecognized attribute "Mesas"
-main.adb:50:39: error: unrecognized attribute "Mesas"
-main.adb:50:48: error: "range" attribute illegal here
-main.adb:51:39: error: unrecognized attribute "Mesas"
-main.adb:51:48: error: "range" attribute illegal here
-main.adb:52:39: error: unrecognized attribute "Salon_Status"
-main.adb:63:19: error: missing ";"
-main.adb:63:19: error: missing "end if;" for "if" at line 35
-main.adb:63:19: error: missing "end Asignar_Mesa;"
-main.adb:63:19: error: missing "end Restaurant_Monitor;"
-main.adb:63:19: error: missing "begin" for procedure "Restaurant" at line 4
-main.adb:63:19: error: missing "end Restaurant;"
+main.adb:105:07: error: "new" or "interface" expected
+main.adb:110:94: error: ";" should be ","
+main.adb:114:01: error: missing "begin" for procedure "Restaurant" at line 27
+main.adb:114:01: error: "end Restaurant;" expected
