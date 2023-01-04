@@ -3,24 +3,60 @@
   <Project>
     <vfs_file />
     <file_marker column=" 1" line=" 1" >
-      <vfs_project>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\practica2.gpr</vfs_project>
+      <vfs_project />
       <vfs_file>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\src\main.adb</vfs_file>
     </file_marker>
     <file_marker column=" 1" line=" 1" >
-      <vfs_project>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\practica2.gpr</vfs_project>
+      <vfs_project />
       <vfs_file>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\src\def_monitors.ads</vfs_file>
     </file_marker>
     <file_marker column=" 1" line=" 1" >
-      <vfs_project>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\practica2.gpr</vfs_project>
+      <vfs_project />
       <vfs_file>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\src\def_monitors.adb</vfs_file>
     </file_marker>
     <file_marker column=" 1" line=" 1" >
-      <vfs_project>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\practica2.gpr</vfs_project>
+      <vfs_project />
       <vfs_file>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\src\main.adb</vfs_file>
     </file_marker>
-    <file_marker current="true" column=" 19" line=" 10" >
-      <vfs_project>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\practica2.gpr</vfs_project>
+    <file_marker column=" 19" line=" 10" >
+      <vfs_project />
       <vfs_file>C:\Users\valem\OneDrive - Universitat de les Illes Balears\3\1r semestre\Concurrente\Pr#195;#161;cticasConcurrente\Practicas_PConcurrente\2\src\def_monitor.ads</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\def_monitor.ads</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\def_monitor.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 90" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 4" line=" 49" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 4" line=" 51" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 27" line=" 89" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker current="true" column=" 1" line=" 90" >
+      <vfs_project>C:\Users\valem\Documents\2\practica2.gpr</vfs_project>
+      <vfs_file>C:\Users\valem\Documents\2\src\main.adb</vfs_file>
     </file_marker>
   </Project>
 </Locations>

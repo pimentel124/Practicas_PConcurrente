@@ -1,0 +1,10 @@
+package def_monitor is
+
+    protected type Maitre is
+      entry CLientLock;
+      procedure ClientUnlock;
+    private
+      fumador : Boolean := false;
+    end Maitre;
+
+end def_monitor;
