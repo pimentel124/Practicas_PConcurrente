@@ -22,131 +22,109 @@
 
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
---with maitre_monitor; use maitre_monitor;
+with maitre_monitor; use maitre_monitor;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 procedure Main is
-   -- Tipos de datos
-   MAX_Clients : constant Integer := 7;
 
-   type cident is range 1..MAX_Clients;
-   type Nom is new String(1..20);
-   type TipoFumador is (Fumador, NoFumador);
-   type Salon_Status is (Vacio, Fumador, No_Fumador);
-   type Salones is array (1..3) of Salon_Status;
-   type Mesa is record
-      Ocupado : Boolean;
-      Cliente : Positive;
-   end record;
-   type Salon is record
-      Mesas : Mesa(1..3);
+   NumClientsFumNoFum : constant Integer := 7;
+   monitor : Monitor_Restaurante(NumSalones, NumMesasSalon);
+
+   type cliente is record
+      nom: Unbounded_String;
+      tipoCliente: Integer;
    end record;
 
-   -- Variables globales
-   --Salones : array (1..3) of Salon;
-   Cola_Fumadores : Queue;
-   Cola_No_Fumadores : Queue;
+   type nombresArray is array (0..(NumClientsFumNoFum*2-1)) of Unbounded_String;
+
+   nombres : constant nombresArray :=(
+      to_Unbounded_String("Tristán"),
+      to_unbounded_string("Pelayo"),
+      to_unbounded_string("Sancho"),
+      to_unbounded_string("Borja"),
+      to_unbounded_string("Bosco"),
+      to_unbounded_string("Guzmán"),
+      to_unbounded_string("Froilán"),
+      to_unbounded_string("Nicolás"),
+      to_unbounded_string("Jacobo"),
+      to_unbounded_string("Rodrigo"),
+      to_unbounded_string("Gonzalo"),
+      to_unbounded_string("JoseMari"),
+      to_unbounded_string("Cayetano"),
+      to_unbounded_string("Leopoldo")
+      );
 
    task type clienteFum is
-      entry Start (id : in cident);
-      entry Join;
+      entry Start (Nom : in Unbounded_String);
    end clienteFum;
 
    task type clienteNoFum is
-      entry Start (id : in cident);
-      entry Join;
+      entry Start (Nom : in Unbounded_String);
    end clienteNoFum;
 
 
    task body clienteFum is
-      MyId : cident;
-      MyNom : Nom;
-      MyTipoCliente : TipoFumador;
+      MyNom : Unbounded_String;
+      SalonCliente: Integer;
    begin
-      accept Start (id : in cident) do
-         MyId := id;
-         MyNom := "Pepe";
-         MyTipoCliente := Fumador;
-         Put_Line
-        (ASCII.HT & "BUEN DÍA soy Pepe y soy " & TipoFumador'Image(MyTipoCliente));
+      accept Start (Nom : in Unbounded_String) do
+         MyNom := Nom;
       end Start;
+      Put_Line
+           ("BUEN DÍA soy " & To_String(MyNom) & " y soy fumador");
+      --CRITICA
 
-      accept Join do
-         Put_Line
-           (ASCII.HT & "Soc el babui SUD");
-      end Join;
+      monitor.FumLock(MyNom, SalonCliente);
+      Put_Line("En " & To_String(MyNom) & " diu: Prendré el menú del dia. Som al saló " & Integer'Image(SalonCliente));
+      delay 0.1;
+      Put_Line
+        ("En " & To_String(MyNom) & "diu: Ja he dinat, el compte per favor");
+      Put_Line
+        ("En " & To_String(MyNom) & " SE'N VA");
+      monitor.sacarCliente(MyNom, SalonCliente);
    end clienteFum;
 
 
    task body clienteNoFum is
-      MyId : cident;
-      MyNom : Nom;
-      MyTipoCliente : TipoFumador;
+      MyNom : Unbounded_String;
+      SalonCliente : Integer;
    begin
-      accept Start (id : in cident) do
-         MyId := id;
-         MyNom := "Pepe";
-         MyTipoCliente := NoFumador;
-         Put_Line
-        ("BUEN DÍA soy y soy " & TipoFumador'Image (MyTipoCliente));
+      accept Start (Nom : in Unbounded_String) do
+         MyNom := Nom;
       end Start;
 
-      accept Join do
-         Put_Line
-           (ASCII.HT & "Soc el babui SUD");
-      end Join;
+      Put_Line
+           ("     BUEN DÍA soy " & To_String(MyNom) & " y soy NO fumador");
+      --Critico
 
+      monitor.NoFumLock(MyNom, SalonCliente);
+
+      Put_Line
+        ("En " & To_String(MyNom) & " diu: Prendré el menú del dia. Som al saló " & Integer'Image(SalonCliente));
+      delay 0.1;
+      Put_Line
+         ("     En " & To_String(MyNom) & " diu: Ja he dinat, el compte per favor");
+      Put_Line
+        ("     En " & To_String(MyNom) & " SE'N VA");
+      monitor.sacarCliente(MyNom, SalonCliente);
    end clienteNoFum;
 
 
-
-   -- Monitor para controlar el acceso a las colas y salones
-   protected type Restaurant_Monitor is
-      entry Asignar_Mesa (Cliente : Positive; Fumador : Boolean);
-      entry Pedir_Cuenta (Cliente : Positive);
-   end Restaurant_Monitor;
+   type fumadors is array (0 .. NumClientsFumNoFum-1) of clienteFum;
+   fum : fumadors;
+   type noFumadors is array(0 .. NumClientsFumNoFum-1) of clienteNoFum;
+   noFum : noFumadors;
 
 
-   protected body Restaurant_Monitor is
+begin
+   --Principal--
+   monitor.prepararMaitre;
 
-      -- Función para asignar una mesa a un cliente
-      function Asignar_Mesa (Cliente : Positive; Fumador : Boolean) return Natural is
-         Salones_Disponibles : Natural;
-         Mesa_Disponible : Natural;
-      begin
-         if Fumador then
-            Salones_Disponibles := 0;
-            -- Verificar cuántos salones para fumadores hay disponibles
-            for I in Salones'Range loop
-               if Salones(I).Salon_Status = Vacio or Salones(I).Salon_Status = Fumador then
-                  Salones_Disponibles := Salones_Disponibles + 1;
-               end if;
-            end loop;
-            -- Si hay salones disponibles, asignar una mesa en uno de ellos
-            if Salones_Disponibles > 0 then
-               Mesa_Disponible := 0;
-               for I in Salones'Range loop
-                  if Salones(I).Salon_Status = Vacio or Salones(I).Salon_Status = Fumador then
-                     for J in Salones(I).Mesas'Range loop
-                        if not Salones(I).Mesas(J).Ocupado then
-                           Salones(I).Mesas(J).Ocupado := True;
-                           Salones(I).Mesas(J).Cliente := Cliente;
-                           Salones(I).Salon_Status := Fumador;
-                           Mesa_Disponible := J;
-                           exit;
-                        end if;
-                     end loop;
-                  end if;
-               end loop;
-               return Mesa_Disponible;
-            else
-               -- Si no hay salones disponibles, agregar cliente a la cola de fumadores
-               Cola_Fumadores.Enqueue (Cliente);
-            end if;
-        end if;
-        end Asignar_Mesa;
-   end Restaurant_Monitor;
-  begin
-      null;
+   for Idx in 0 .. (NumClientsFumNoFum-1) loop
+      fum (Idx).Start(nombres(Idx));
+      noFum (Idx).Start(nombres(Idx+NumClientsFumNoFum));
+   end loop;
+
 end Main;
 
 
