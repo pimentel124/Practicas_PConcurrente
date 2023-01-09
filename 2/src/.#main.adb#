@@ -1,0 +1,228 @@
+--Dame una solución en Ada al siguiente problema: El Restaurante de los Solitarios es famoso para ser el único que solo tiene mesas individuales y dónde todavía se  puede fumar. El restaurante se encuentra dividido en X salones de N mesas cada uno de ellos. Como que ha habido quejas de algunos clientes por el humo de los clientes fumadores el amo del restaurante ha decidido establecer el siguiente protocolo: Cuando un cliente llega pide mesa al camarero indicando si es fumador o no y este intentará darle mesa según los siguientes criterios:
+
+
+--no fumadores).
+
+--queda restringido a este tipo de comensal. Esto será así hasta que el salón quede vacío.
+--Al haber comido los cliente piden la cuenta al camarero que tiene en cuenta la tabla que ha quedado vacía.
+--Indicaciones:
+--La simulación se tiene que programar con el lenguaje Ada usando los Objetos protegidos como herramienta de
+--sincronía. Programar la simulación descrita para 7 procesos fumador y 7 procesos no fumador
+
+--La salida que tiene que generar la simulación tiene que ser como la que se muestra en el siguiente ejemplo:
+--++++++++++ El Camarero está preparado
+--Hay 3 salones con capacidad de 3 comensales cada uno
+--BUEN DÍA soy Tristán y soy fumador
+---------- Tristán tiene mesa en el salón de fumadores 1. Disponibilidad: 2
+--Tristán dice: Tomaré el menú del día. Estoy en el salón 1
+--BUEN DÍA soy Pelayo y soy fumador
+---------- Pelayo tiene mesa en el salón de fumadores 1. Disponibilidad: 1
+--Pelayo dice: Tomaré el menú del día. Estoy en el salón 1
+--BUEN DÍA soy Sancho y soy No fumador
+
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+with def_monitor; use def_monitor;
+
+procedure Restaurant is
+   -- Tipos de datos
+   type Salon_Status is (Vacio, Fumador, No_Fumador);
+   type Salones is array (1..X) of Salon_Status;
+   type Mesa is record
+      Ocupado : Boolean;
+      Cliente : Positive;
+   end record;
+   type Salon is record
+      Mesas : Mesa(1..N);
+   end record;
+
+   -- Variables globales
+   Salones : array (1..X) of Salon;
+   Cola_Fumadores : Queue;
+   Cola_No_Fumadores : Queue;
+
+   -- Monitor para controlar el acceso a las colas y salones
+   protected type Restaurant_Monitor is
+      entry Asignar_Mesa (Cliente : Positive; Fumador : Boolean);
+      entry Pedir_Cuenta (Cliente : Positive);
+   end Restaurant_Monitor;
+
+   protected body Restaurant_Monitor is
+
+      -- Función para asignar una mesa a un cliente
+      function Asignar_Mesa (Cliente : Positive; Fumador : Boolean) return Natural is
+         Salones_Disponibles : Natural;
+         Mesa_Disponible : Natural;
+      begin
+         if Fumador then
+            Salones_Disponibles := 0;
+            -- Verificar cuántos salones para fumadores hay disponibles
+            for I in Salones'Range loop
+               if Salones(I).Salon_Status = Vacio or Salones(I).Salon_Status = Fumador then
+                  Salones_Disponibles := Salones_Disponibles + 1;
+               end if;
+            end loop;
+            -- Si hay salones disponibles, asignar una mesa en uno de ellos
+            if Salones_Disponibles > 0 then
+               Mesa_Disponible := 0;
+               for I in Salones'Range loop
+                  if Salones(I).Salon_Status = Vacio or Salones(I).Salon_Status = Fumador then
+                     for J in Salones(I).Mesas'Range loop
+                        if not Salones(I).Mesas(J).Ocupado then
+                           Salones(I).Mesas(J).Ocupado := True;
+                           Salones(I).Mesas(J).Cliente := Cliente;
+                           Salones(I).Salon_Status := Fumador;
+                           Mesa_Disponible := J;
+                           exit;
+                        end if;
+                     end loop;
+                  end if;
+               end loop;
+               return Mesa_Disponible;
+            else
+               -- Si no hay salones disponibles, agregar cliente a la cola de fumadores
+               Cola_Fumadores.Enqueue (Cliente);
+            end if;
+        end if;
+        end Asignar_Mesa;
+    end Restaurant_Monitor;
+end Restaurant;
+
+
+
+--------------------------
+
+--Primero, se define un tipo de datos "Salon" para representar cada uno de los salones del restaurante:
+type Salon is
+   record
+      Vacio : Boolean;
+      Fumadores : Boolean;
+   end record;
+--Este tipo de datos incluye dos variables: "Vacio" indica si el salón está vacío o no, y "Fumadores" indica si el salón está restringido a fumadores o no fumadores.
+
+--A continuación, se define un tipo de datos "Monitor_Camarero" que incluye una matriz de tipo "Salon" que representa los salones del restaurante, y también tiene métodos protegidos para asignar y liberar mesas:
+type Monitor_Camarero is
+   protected
+      type Salon_Matrix is array (1 .. 3, 1 .. 3) of Salon;
+
+      Salones : Salon_Matrix;
+
+   procedure Asignar_Mesa (Fumador : Boolean) with
+      Pre => not Salones (1, 1).Vacio or not Salones (2, 1).Vacio or not Salones (3, 1).Vacio;
+      Post => Salones (1, 1).Vacio or Salones (2, 1).Vacio or Salones (3, 1).Vacio;
+
+   procedure Liberar_Mesa (Fumador : Boolean);
+end Monitor_Camarero;
+
+--El método protegido "Asignar_Mesa" recibe como parámetro un valor booleano que indica si el cliente es fumador o no. La guarda del método comprueba si hay mesas disponibles en algún salón, y si es así, asigna una mesa al cliente en el salón adecuado (para fumadores o no fumadores) y actualiza la variable "Vacio" del salón correspondiente.
+
+--El método protegido "Liberar_Mesa" recibe como parámetro un valor booleano que indica si el cliente que ha terminado de comer era fumador o no. El método actualiza la variable "Vacio" del salón correspondiente para indicar que la mesa está disponible de nuevo.
+
+--Por último, se pueden implementar las tareas fumadoras y no fumadoras que representan a los clientes del restaurante:
+
+task type Fumador is
+   entry Asignar_Mesa;
+   entry Liberar_Mesa;
+end Fumador;
+
+task type No_Fumador is
+   entry Asignar_Mesa;
+   entry Liberar_Mesa;
+end No_Fumador;
+
+-----------------
+
+
+with Ada.Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Real_Time;
+
+procedure Main is
+
+   -- Constantes que representan el número de salones y el número
+   -- de mesas en cada salón en el restaurante
+   NUM_SALONES: constant Integer := 3;
+   NUM_MESAS: constant Integer := 3;
+
+   -- Tipo que representa a un cliente del restaurante
+   type Cliente is (Fumador, No_Fumador);
+
+   -- Estructura que representa a un salón del restaurante
+   type Salon is record
+      Disponibilidad: Integer;
+      Tipo: Cliente;
+   end record;
+
+   -- Monitor que controla la asignación de mesas en el restaurante
+   type Camarero is
+      entry Pedir_Mesa (Tipo: Cliente; Nombre: String);
+      procedure Pedir_Cuenta;
+   private
+      -- Vector que almacena la información de cada salón del restaurante
+      Salones: array (1..NUM_SALONES) of Salon;
+   end Camarero;
+
+   -- Función que inicializa el monitor "Camarero"
+   function Inicializar_Camarero return Camarero is
+      function Salon_Disponible (C: Camarero; Tipo: Cliente) return Boolean is
+         (C.Salones (1).Disponibilidad > 0
+          or C.Salones (1).Tipo = Tipo);
+      begin
+         for I in C.Salones'Range loop
+            C.Salones (I).Disponibilidad := NUM_MESAS;
+            C.Salones (I).Tipo := No_Fumador;
+         end loop;
+         return C;
+end Inicializar_Camarero;
+
+-----------------------
+
+with Ada.Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Real_Time;
+
+procedure Solitarios is
+
+   -- Constantes del programa
+   Number_Of_Salones : constant := 3;
+   Capacity_Per_Salon : constant := 3;
+   Number_Of_Fumadores : constant := 7;
+   Number_Of_No_Fumadores : constant := 7;
+
+   -- Tipos de datos del programa
+   type Salon_Type is (Fumadores, No_Fumadores);
+   type Estado_Type is (Libre, Ocupado);
+
+   type Salon is
+      record
+         Estado : Estado_Type;
+         Disponibilidad : Natural;
+      end record;
+
+   type Restaurante is
+      record
+         Salones : array (1 .. Number_Of_Salones) of Salon;
+      end record;
+
+   -- Declaración del monitor
+   type Camarero is
+      entry Pedir_Mesa (Fumador : Boolean; Nombre : String);
+      entry Salir_Del_Restaurante (Nombre : String);
+   end Camarero;
+
+   -- Variables globales
+   Restaurant : Restaurante;
+   Maître : Camarero;
+
+   -- Función para buscar un salón libre para un fumador o un no fumador
+   function Buscar_Salon_Libre (Fumador : Boolean) return Natural is
+      Salon_Fumadores : constant Salon_Type := Fumadores;
+      Salon_No_Fumadores : constant Salon_Type := No_Fumadores;
+      Salon_Libre : Natural;
+   begin
+      if Fumador then
+         for Salon_Libre in 1 .. Number_Of_Salones loop
+            if Restaurant.Salones (Salon_Libre).Estado = Libre or
+               Restaurant.Salones (Salon_Libre).Estado = Salon_Fumadores then
+               return Salon
+
