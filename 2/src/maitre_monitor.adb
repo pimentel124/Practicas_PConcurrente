@@ -2,6 +2,11 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
+--
+ -- @author Alvaro Pimentel, Andreu Marquès Valerià
+ -- @video
+--
+
 package body maitre_monitor is
 
    protected body Monitor_Restaurante is

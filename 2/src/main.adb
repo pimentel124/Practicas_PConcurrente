@@ -3,6 +3,11 @@ with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with maitre_monitor; use maitre_monitor;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
+--
+ -- @author Alvaro Pimentel, Andreu Marquès Valerià
+ -- @video
+--
+
 procedure Main is
 
    --Numero de procesos Fumador/No Fumador

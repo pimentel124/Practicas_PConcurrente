@@ -1,5 +1,10 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
+--
+ -- @author Alvaro Pimentel, Andreu Marquès Valerià
+ -- @video
+--
+
 package maitre_monitor is
 
    NumSalones : constant Integer := 3;
