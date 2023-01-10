@@ -19,9 +19,9 @@ RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_IMPLEMENTATION_PRAGMAS
 RV NO_IMPLICIT_LOOPS
 RV NO_ELABORATION_CODE
-RV MAX_PROTECTED_ENTRIES=2
+RV MAX_PROTECTED_ENTRIES=1
 
-U maitre_monitor%b	maitre_monitor.adb	eccff650 NE OO PK IL
+U maitre_monitor%b	maitre_monitor.adb	adc18f74 NE OO PK IL
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.strings%s		a-string.ads		a-string.ali
@@ -39,7 +39,7 @@ Z system.tasking.protected_objects%s  s-taprob.adb  s-taprob.ali
 Z system.tasking.protected_objects.entries%s  s-tpoben.adb  s-tpoben.ali
 Z system.tasking.protected_objects.operations%s  s-tpobop.adb  s-tpobop.ali
 
-U maitre_monitor%s	maitre_monitor.ads	a2e07ba8 EE OO PK IL
+U maitre_monitor%s	maitre_monitor.ads	20baed60 EE OO PK IL
 W ada%s			ada.ads			ada.ali
 Z ada.exceptions%s	a-except.adb		a-except.ali
 W ada.strings%s		a-string.ads		a-string.ali
@@ -74,8 +74,8 @@ D interfac.ads		20210520051132 edec285f interfaces%s
 D i-c.ads		20210520051132 d9beded9 interfaces.c%s
 D i-cstrin.ads		20210520051132 341d0ddf interfaces.c.strings%s
 D i-cstrea.ads		20210520051132 e53d8b8e interfaces.c_streams%s
-D maitre_monitor.ads	20230108182932 a1d2298f maitre_monitor%s
-D maitre_monitor.adb	20230108183716 1690d131 maitre_monitor%b
+D maitre_monitor.ads	20230110151216 2388bf47 maitre_monitor%s
+D maitre_monitor.adb	20230110151216 d5c43edd maitre_monitor%b
 D system.ads		20210520051136 2ffa5114 system%s
 D s-atacco.ads		20210520051132 4c36d12f system.address_to_access_conversions%s
 D s-atocou.ads		20210520051132 b45c2d8d system.atomic_counters%s
@@ -118,17 +118,16 @@ G c Z s s [TarrstingsBIP maitre_monitor 15 4 none]
 G c Z s s [TarrstingsBDI maitre_monitor 15 4 none]
 G c Z s s [TarrstingsBDA maitre_monitor 15 4 none]
 G c Z s s [TarrstingsBDF maitre_monitor 15 4 none]
-G c Z s b [fumlock maitre_monitor__monitor_restaurante 23 13 none]
-G c Z s b [nofumlock maitre_monitor__monitor_restaurante 24 13 none]
-G c Z s b [colocarcliente maitre_monitor__monitor_restaurante 25 17 none]
-G c Z s b [sacarcliente maitre_monitor__monitor_restaurante 26 17 none]
-G c Z s b [prepararmaitre maitre_monitor__monitor_restaurante 27 17 none]
-G c Z s b [monitor_restaurante__colocarclienteN maitre_monitor 25 7 none]
-G c Z s b [monitor_restaurante__colocarclienteP maitre_monitor 25 7 none]
-G c Z s b [monitor_restaurante__sacarclienteN maitre_monitor 26 7 none]
-G c Z s b [monitor_restaurante__sacarclienteP maitre_monitor 26 7 none]
-G c Z s b [monitor_restaurante__prepararmaitreN maitre_monitor 27 7 none]
-G c Z s b [monitor_restaurante__prepararmaitreP maitre_monitor 27 7 none]
+G c Z s b [clientlock maitre_monitor__monitor_restaurante 23 13 none]
+G c Z s b [colocarcliente maitre_monitor__monitor_restaurante 24 17 none]
+G c Z s b [sacarcliente maitre_monitor__monitor_restaurante 25 17 none]
+G c Z s b [prepararmaitre maitre_monitor__monitor_restaurante 26 17 none]
+G c Z s b [monitor_restaurante__colocarclienteN maitre_monitor 24 7 none]
+G c Z s b [monitor_restaurante__colocarclienteP maitre_monitor 24 7 none]
+G c Z s b [monitor_restaurante__sacarclienteN maitre_monitor 25 7 none]
+G c Z s b [monitor_restaurante__sacarclienteP maitre_monitor 25 7 none]
+G c Z s b [monitor_restaurante__prepararmaitreN maitre_monitor 26 7 none]
+G c Z s b [monitor_restaurante__prepararmaitreP maitre_monitor 26 7 none]
 G c Z s s [salonIP maitre_monitor 9 9 none]
 G c Z s s [TarrsalonesBIP maitre_monitor 14 4 none]
 G c Z s s [TarrboolentryBIP maitre_monitor 19 4 none]
@@ -136,8 +135,7 @@ G c Z s s [TarrboolsalonesBIP maitre_monitor 20 4 none]
 G c Z s s [monitor_restauranteVDI maitre_monitor 22 4 none]
 G c Z s s [monitor_restauranteVDF maitre_monitor 22 4 none]
 G c Z s s [monitor_restauranteVIP maitre_monitor 22 4 none]
-G c Z s s [P90sIP maitre_monitor 23 7 none]
-G c Z s s [P94sIP maitre_monitor 24 7 none]
+G c Z s s [P91sIP maitre_monitor 23 7 none]
 X 1 ada.ads
 16K9*Ada 20e8 22|1r6 1r33 23|1r6 1r23 2r6 2r31 3r6 3r33
 X 6 a-inteio.ads
@@ -146,71 +144,67 @@ X 9 a-string.ads
 16K13*Strings 35e16 22|1r10 1r37 23|3r10 3r37
 X 12 a-strunb.ads
 83K21*Unbounded 765e26 22|1w18 1r45 23|3w18 3r45
-88R9*Unbounded_String<5|43R9> 744e15 22|15r38 23r33 24r35 25r44 26r42 23|8r33
-. 24r33 39r44 80r42
+88R9*Unbounded_String<5|43R9> 744e15 22|15r38 23r36 24r44 25r42 23|10r36
+. 32r44 74r42
 104V13*To_Unbounded_String{88R9} 22|16s41 17s41 18s41
-117V13*To_String{string} 23|20s32 35s32 99s35 99s167 102s34 102s166
+117V13*To_String{string} 23|23s35 26s35 93s35 93s167 96s34 96s166
 X 15 a-textio.ads
 58K13*Text_IO 725e16 23|1w10 1r27
-506U14*Put_Line 23|19s10 34s10 98s13 101s13 120s10 122s10
+506U14*Put_Line 23|22s12 25s13 92s13 95s13 114s10 116s10
 X 22 maitre_monitor.ads
-3K9*maitre_monitor 38l5 38e19 23|5b14 128l5 128t19
+3K9*maitre_monitor 37l5 37e19 23|5b14 122l5 122t19
 5i4*NumSalones{integer}
-6i4*NumMesasSalon{integer} 23|16r19 31r19 46r42 96r19 123r97
+6i4*NumMesasSalon{integer} 23|18r19 40r44 90r19 117r97
 8E9*TipoSalon 8e49
 8n23*Vacio{8E9}
 8n30*Fumador{8E9}
 8n39*NoFumador{8E9}
 9R9*Salon 12e14 14r39
-10i7*Tipo{integer} 23|45r27 55r30 58m27 68r32 72r39 89r30 93m24 97r24 99r200
-. 100r27 102r199 118m24
-11i7*Capacidad{integer} 23|16r46 31r46 46r30 49m33 49r57 57m27 57r51 87m21
-. 87r45 92r24 96r46 117m24
-14A9*arrSalones(9R9)<integer> 32r17
-15A9*arrStings(12|88R9)<integer> 16r27 33r17
-16a4*TipoCliente{15A9} 33r30 23|99r177 102r176
-19A9*arrBoolEntry(boolean)<integer> 30r18
-20A9*arrBoolSalones(boolean)<integer> 31r19
-22W19*Monitor_Restaurante 22d39 22d60 30E7 35l8 35e27 23|7b19 126l8 126t27
-22i39 numSalones{integer} 23|24r84 44r23 66r23 123r34
+10i7*Tipo{integer} 23|39r27 49r30 52m27 62r32 66r39 83r30 87m24 91r24 93r200
+. 94r27 96r199 112m24
+11i7*numClientes{integer} 23|18r46 40r30 43m33 43r59 51m27 51r53 81m21 81r47
+. 86r24 90r46 111m24
+14A9*arrSalones(9R9)<integer> 31r17
+15A9*arrStings(12|88R9)<integer> 16r27 32r17
+16a4*TipoCliente{15A9} 32r30 23|93r177 96r176
+19A9*arrBoolEntry(boolean)<integer> 29r18
+20A9*arrBoolSalones(boolean)<integer> 30r19
+22W19*Monitor_Restaurante 22d39 22d60 29E7 34l8 34e27 23|7b19 120l8 120t27
+22i39 numSalones{integer} 23|38r23 60r23 117r34
 22i60 Capacidad{integer}
-23Y13 FumLock 23>21 23<51 23|8b13 21l11 21t18
-23r21 nombre{12|88R9} 23|14r25 20r42
-23i51 SalonCliente{integer} 23|18m10 20r87
-24Y13 NoFumLock 24>23 24<53 23|24b11 37l11 37t20
-24r23 nombre{12|88R9} 23|29r25 35r42
-24i53 SalonCliente{integer} 23|33m10 35r89
-25U17 colocarCLiente 25>32 25>62 25<82 23|14s10 29s10 39b17 76l11 76t25
-25r32 nombre{12|88R9} 23|39b32
-25i62 tipus{integer} 23|39b62 45r34 58r35
-25i82 id{integer} 23|39b82 50m22 59m16
-26U17 sacarCliente 26>30 26>60 23|80b17 105l11 105t23
-26r30 nombre{12|88R9} 23|80b30 99r45 102r44
-26i60 id{integer} 23|80b60 85r15 99r102 102r101
-27U17 prepararMaitre 23|107b17 124l11 124t25
-30a7 canEntry{19A9} 23|8r84 64r10 65r10 69r19 70r19 72r19 89r10 109r10 110r10
-31a7 SalonAval{20A9} 23|53r19 67r16 90r10 112r10 113r10 114r10
-32a7 salones{14A9} 23|16r35 31r35 45r16 46r19 49r22 49r46 55r19 57r16 57r40
-. 58r16 68r21 72r28 87r10 87r34 89r19 92r13 93r13 96r35 97r13 99r189 100r16
-. 102r188 116r19 117r13 118r13
-33a7 TipoCli{15A9}
+23Y13 ClientLock 23>24 23>54 23<74 23|10b13 29l11 29t21
+23r24 nombre{12|88R9} 23|16r25 23r45 26r45
+23i54 tipus{integer} 23|16r33 21r13 24r16
+23i74 SalonCliente{integer} 23|20m10 23r90 26r93
+24U17 colocarCLiente 24>32 24>62 24<82 23|16s10 32b17 70l11 70t25
+24r32 nombre{12|88R9} 23|32b32
+24i62 tipus{integer} 23|32b62 39r34 52r35
+24i82 id{integer} 23|32b82 44m22 53m16
+25U17 sacarCliente 25>30 25>60 23|74b17 99l11 99t23
+25r30 nombre{12|88R9} 23|74b30 93r45 96r44
+25i60 id{integer} 23|74b60 79r15 93r102 96r101
+26U17 prepararMaitre 23|101b17 118l11 118t25
+29a7 canEntry{19A9} 23|10r107 10r122 58r10 59r10 63r19 64r19 66r19 83r10
+. 103r10 104r10
+30a7 SalonAval{20A9} 23|47r19 61r16 84r10 106r10 107r10 108r10
+31a7 salones{14A9} 23|18r35 39r16 40r19 43r22 43r48 49r19 51r16 51r42 52r16
+. 62r21 66r28 81r10 81r36 83r19 86r13 87r13 90r35 91r13 93r189 94r16 96r188
+. 110r19 111r13 112r13
+32a7 TipoCli{15A9}
 X 23 maitre_monitor.adb
-8r21 nombre{12|88R9}
-8i51 SalonCliente{integer}
-9i10 dispo{integer} 16m10 20r131
-10i10 i{integer} 14m36 16r43 18r26
-24r21 nombre{12|88R9}
-24i51 SalonCliente{integer}
-25i10 dispo{integer} 31m10 35r133
-26i10 i{integer} 29m36 31r43 33r26
-40b10 trobat{boolean} 43m10 47r26 48m22 55r47 56m16 63m10
-44i14 i{integer} 45r24 46r27 49r30 49r54 50r28 53r29 55r27 57r24 57r48 58r24
-. 59r22
-66i14 i{integer} 67r26 68r29 72r36
-81i10 dispo{integer} 96m10 99r145 102r144
-82i10 i{integer} 85m10 87r18 87r42 89r27 90r20 92r21 93r21 96r43 97r21 99r197
-. 100r24 102r196
-116i14 i{integer} 117r21 118r21
+10r24 nombre{12|88R9}
+10i54 tipus{integer}
+10i74 SalonCliente{integer}
+11i10 dispo{integer} 18m10 23r134 26r137
+12i10 i{integer} 16m40 18r43 20r26
+33b10 trobat{boolean} 36m10 41r26 42m22 49r47 50m16 57m10
+38i14 i{integer} 39r24 40r27 43r30 43r56 44r28 47r29 49r27 51r24 51r50 52r24
+. 53r22
+60i14 i{integer} 61r26 62r29 66r36
+75i10 dispo{integer} 90m10 93r145 96r144
+76i10 i{integer} 79m10 81r18 81r44 83r27 84r20 86r21 87r21 90r43 91r21 93r197
+. 94r24 96r196
+110i14 i{integer} 111r21 112r21
 X 24 system.ads
 67M9*Address
 X 36 s-memory.ads

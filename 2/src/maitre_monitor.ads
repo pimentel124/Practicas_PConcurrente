@@ -8,7 +8,7 @@ package maitre_monitor is
    type TipoSalon is (Vacio, Fumador, NoFumador);
    type Salon is record
       Tipo : Integer;
-      Capacidad : Integer;
+      numClientes : Integer;
    end record;
 
    type arrSalones is array (0..2) of Salon;
@@ -20,8 +20,7 @@ package maitre_monitor is
    type arrBoolSalones is array (0..2) of Boolean;
 
    protected type Monitor_Restaurante(numSalones: Integer; Capacidad: Integer) is
-      entry FumLock(nombre : in Unbounded_String; SalonCliente : out Integer);
-      entry NoFumLock(nombre : in Unbounded_String; SalonCliente : out Integer);
+      entry ClientLock(nombre : in Unbounded_String; tipus : in Integer; SalonCliente : out Integer);
       procedure colocarCLiente(nombre : in Unbounded_String; tipus : in Integer; id : out Integer);
       procedure sacarCliente(nombre : in Unbounded_String; id : in Integer);
       procedure prepararMaitre;

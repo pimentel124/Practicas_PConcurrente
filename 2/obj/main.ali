@@ -28,7 +28,7 @@ RV MAX_TASK_ENTRIES=1
 RV MAX_TASKS=1+
 RV MAX_ENTRY_QUEUE_LENGTH=1+
 
-U main%b		main.adb		ed27ce7c NE OO SU
+U main%b		main.adb		e4698b3f NE OO SU
 W ada%s			ada.ads			ada.ali
 Z ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
 Z ada.exceptions%s	a-except.adb		a-except.ali
@@ -78,8 +78,8 @@ D interfac.ads		20210520051132 edec285f interfaces%s
 D i-c.ads		20210520051132 d9beded9 interfaces.c%s
 D i-cstrin.ads		20210520051132 341d0ddf interfaces.c.strings%s
 D i-cstrea.ads		20210520051132 e53d8b8e interfaces.c_streams%s
-D main.adb		20230108184208 1778e91d main%b
-D maitre_monitor.ads	20230108182932 a1d2298f maitre_monitor%s
+D main.adb		20230110151216 9c6c3a96 main%b
+D maitre_monitor.ads	20230110151216 2388bf47 maitre_monitor%s
 D system.ads		20210520051136 2ffa5114 system%s
 D s-atacco.ads		20210520051132 4c36d12f system.address_to_access_conversions%s
 D s-atocou.ads		20210520051132 b45c2d8d system.atomic_counters%s
@@ -120,63 +120,58 @@ D s-wchcon.ads		20210520051136 1b7d22d2 system.wch_con%s
 D s-win32.ads		20210520051136 15ac53fb system.win32%s
 D unchconv.ads		20210520051136 ca2f9e18 unchecked_conversion%s
 G a e
-G c Z b b [main standard 28 11 none]
-G r s monitor_restaurante [main standard 28 11 none] [monitor_restauranteVIP maitre_monitor 22 4 none]
-G r o none [main standard 28 11 none] [fumlock maitre_monitor__monitor_restaurante 23 13 none]
-G r p none [main standard 28 11 none] [sacarcliente maitre_monitor__monitor_restaurante 26 17 none]
-G r o none [main standard 28 11 none] [nofumlock maitre_monitor__monitor_restaurante 24 13 none]
-G r p none [main standard 28 11 none] [prepararmaitre maitre_monitor__monitor_restaurante 27 17 none]
+G c Z b b [main standard 6 11 none]
+G r s monitor_restaurante [main standard 6 11 none] [monitor_restauranteVIP maitre_monitor 22 4 none]
+G r o none [main standard 6 11 none] [clientlock maitre_monitor__monitor_restaurante 23 13 none]
+G r p none [main standard 6 11 none] [sacarcliente maitre_monitor__monitor_restaurante 25 17 none]
+G r p none [main standard 6 11 none] [prepararmaitre maitre_monitor__monitor_restaurante 26 17 none]
 X 1 ada.ads
-16K9*Ada 20e8 25|23r6 23r23 24r6 24r31 26r6 26r33
+16K9*Ada 20e8 25|1r6 1r23 2r6 2r31 4r6 4r33
 X 8 a-inteio.ads
-18K13*Integer_Text_IO[19|46] 25|24w10 24r35
+18K13*Integer_Text_IO[19|46] 25|2w10 2r35
 X 12 a-string.ads
-16K13*Strings 35e16 25|26r10 26r37
+16K13*Strings 35e16 25|4r10 4r37
 X 15 a-strunb.ads
-83K21*Unbounded 765e26 25|26w18 26r45
-88R9*Unbounded_String<7|43R9> 744e15 25|34r12 38r64 58r29 62r29 67r15 70r30
-. 89r15 92r30
-104V13*To_Unbounded_String{88R9} 25|41s7 42s7 43s7 44s7 45s7 46s7 47s7 48s7
-. 49s7 50s7 51s7 52s7 53s7 54s7
-117V13*To_String{string} 25|74s31 78s24 81s18 83s18 97s36 103s18 106s24 108s23
+83K21*Unbounded 765e26 25|4w18 4r45
+88R9*Unbounded_String<7|43R9> 744e15 25|13r64 33r29 37r29 42r15 45r30 67r15
+. 70r30
+104V13*To_Unbounded_String{88R9} 25|15s7 16s7 17s7 18s7 19s7 20s7 21s7 22s7
+. 23s7 24s7 25s7 26s7 27s7 28s7
+117V13*To_String{string} 25|49s31 54s24 58s18 60s18 75s36 81s18 84s24 86s23
 X 18 a-textio.ads
-58K13*Text_IO 725e16 25|23w10 23r27
-506U14*Put_Line 25|73s7 78s7 80s7 82s7 96s7 102s7 105s7 107s7
+58K13*Text_IO 725e16 25|1w10 1r27
+506U14*Put_Line 25|48s7 54s7 57s7 59s7 74s7 80s7 83s7 85s7
 X 25 main.adb
-28U11*Main 28b11 128l5 128t9
-30i4 NumClientsFumNoFum{integer} 38r36 113r33 115r34 123r21 125r37
-31w4 monitor{26|22W19} 77r7 84r7 100r7 109r7 121r4
-33R9 cliente 36e14
-34r7 nom{15|88R9}
-35i7 tipoCliente{integer}
-38A9 nombresArray(15|88R9)<integer> 40r23
-40a4 nombres{38A9} 124r23 125r25
-57T14 clienteFum 59l8 59e18 66b14 85l8 85t18 113r58
-58Y13 Start 58>20 70b14 72l11 72t16 124s17
-58r20 Nom{15|88R9} 71r19
-61T14 clienteNoFum 63l8 63e20 88b14 110l8 110t20 115r59
-62Y13 Start 62>20 92b14 94l11 94t16 125s19
-62r20 Nom{15|88R9} 93r19
-67r7 MyNom{15|88R9} 71m10 74r41 77r23 78r34 81r28 83r28 84r28
-68i7 SalonCliente{integer} 77m30 78r105 84r35
+6U11*Main 6b11 107l5 107t9
+9i4 NumClientsFumNoFum{integer} 13r36 92r33 94r34 102r21 104r37
+10w4 monitor{26|22W19} 52r7 62r7 78r7 88r7 100r4
+13A9 nombresArray(15|88R9)<integer> 14r23
+14a4 nombres{13A9} 103r23 104r25
+32T14 clienteFum 34l8 34e18 41b14 63l8 63t18 92r58
+33Y13 Start 33>20 45b14 47l11 47t16 103s17
+33r20 Nom{15|88R9} 46r19
+36T14 clienteNoFum 38l8 38e20 66b14 89l8 89t20 94r59
+37Y13 Start 37>20 70b14 72l11 72t16 104s19
+37r20 Nom{15|88R9} 71r19
+42r7 MyNom{15|88R9} 46m10 49r41 52r26 54r34 58r28 60r28 62r28
+43i7 SalonCliente{integer} 52m36 54r105 62r35
+45r21 Nom{15|88R9}
+67r7 MyNom{15|88R9} 71m10 75r46 78r26 81r28 84r34 86r33 88r28
+68i7 SalonCliente{integer} 78m36 81r99 88r35
 70r21 Nom{15|88R9}
-89r7 MyNom{15|88R9} 93m10 97r46 100r25 103r28 106r34 108r33 109r28
-90i7 SalonCliente{integer} 100m32 103r99 109r35
-92r21 Nom{15|88R9}
-113A9 fumadors(57T14)<integer> 114r10
-114a4 fum{113A9} 124r7
-115A9 noFumadors(61T14)<integer> 116r12
-116a4 noFum{115A9} 125r7
-123i8 Idx{integer} 124r12 124r31 125r14 125r33
+92A9 fumadors(32T14)<integer> 93r10
+93a4 fum{92A9} 103r7
+94A9 noFumadors(36T14)<integer> 95r12
+95a4 noFum{94A9} 104r7
+102i8 Idx{integer} 103r12 103r31 104r14 104r33
 X 26 maitre_monitor.ads
-3K9*maitre_monitor 25|25w6 25r26 26|38e19
-5i4*NumSalones{integer} 25|31r34
-6i4*NumMesasSalon{integer} 25|31r46
-22W19*Monitor_Restaurante 25|31r14 26|35e27
-23Y13 FumLock 25|77s15
-24Y13 NoFumLock 25|100s15
-26U17 sacarCliente 25|84s15 109s15
-27U17 prepararMaitre 25|121s12
+3K9*maitre_monitor 25|3w6 3r26 26|37e19
+5i4*NumSalones{integer} 25|10r34
+6i4*NumMesasSalon{integer} 25|10r46
+22W19*Monitor_Restaurante 25|10r14 26|34e27
+23Y13 ClientLock 25|52s15 78s15
+25U17 sacarCliente 25|62s15 88s15
+26U17 prepararMaitre 25|100s12
 X 27 system.ads
 67M9*Address
 X 38 s-memory.ads
